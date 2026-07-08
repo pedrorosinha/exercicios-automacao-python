@@ -1,9 +1,13 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import pandas as pd
 
 website = "https://www.thesun.co.uk/sport/football/"
 
-driver = webdriver.Chrome()
+options = Options()
+options.headless = True
+
+driver = webdriver.Chrome(options=options)
 
 driver.get(website)
 
@@ -29,6 +33,6 @@ my_dict = {
 }
 
 df_headlines = pd.DataFrame(my_dict)
-df_headlines.to_csv("headlines.csv")
+df_headlines.to_csv("data/output/headlines-headless.csv")
 
 driver.quit()
