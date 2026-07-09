@@ -1,6 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
+import os
+from datetime import datetime
+from pathlib import Path
+
+application_path = Path(__file__).parent
+
+now = datetime.now()
+day_month_year = now.strftime("%d-%m-%Y") # DD-MM-YYYY
 
 website = "https://www.thesun.co.uk/sport/football/"
 
@@ -10,7 +18,6 @@ options.headless = True
 driver = webdriver.Chrome(options=options)
 
 driver.get(website)
-
 
 containers = driver.find_elements(by="xpath", value='//div[@class="story__copy-container"]')
 
@@ -33,6 +40,10 @@ my_dict = {
 }
 
 df_headlines = pd.DataFrame(my_dict)
-df_headlines.to_csv("data/output/headlines-headless.csv")
+file_name = f"data/output/headlines-{day_month_year}.csv"
+
+final_path = os.path.join(application_path, file_name)
+
+df_headlines.to_csv(final_path)
 
 driver.quit()
